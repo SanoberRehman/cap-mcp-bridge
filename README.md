@@ -288,13 +288,15 @@ The workflow refuses to publish if the tag does not match `package.json`. One-ti
 only lets you register a trusted publisher for a package that already exists, so the very first
 version is published by hand (`npm publish`, with 2FA), after which the trusted publisher is added
 on npmjs.com under the package's Settings (GitHub Actions, repository
-`SanoberRehman/cap-mcp-bridge`, workflow `release.yml`).
+`SanoberRehman/cap-mcp-bridge`, workflow `release.yml`). Provenance is requested only by the
+workflow (`--provenance`); a manual publish from a laptop cannot generate it, so it is not set in
+`publishConfig`.
 
 ### Post-publish check
 
 ```sh
-scripts/verify-published.sh            # cap-mcp-bridge@latest
-scripts/verify-published.sh 0.1.0      # a specific version
+bash scripts/verify-published.sh            # cap-mcp-bridge@latest
+bash scripts/verify-published.sh 0.1.0      # a specific version
 ```
 
 It runs `npx -y cap-mcp-bridge@<version> --print-model` against Northwind from a fresh temp
