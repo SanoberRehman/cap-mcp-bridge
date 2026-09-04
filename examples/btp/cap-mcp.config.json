@@ -1,0 +1,15 @@
+{
+  "url": "https://<app>.cfapps.<region>.hana.ondemand.com/odata/v4/catalog",
+  "auth": {
+    "kind": "oauth2-cc",
+    "tokenUrl": "https://<subdomain>.authentication.<region>.hana.ondemand.com/oauth/token",
+    "clientId": "${CAP_MCP_CLIENT_ID}",
+    "clientSecret": "${CAP_MCP_CLIENT_SECRET}"
+  },
+  "toolMode": "auto",
+  "writeEnabled": false,
+  "timeoutMs": 30000,
+  "maxRetries": 3,
+  "entityDeny": ["DraftAdministrativeData", "*_texts"],
+  "redactFields": ["*email*", "*phone*"]
+}

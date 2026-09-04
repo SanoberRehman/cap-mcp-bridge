@@ -27,7 +27,8 @@ export const ConfigSchema = z.object({
   auth: AuthSchema.default({ kind: "none" }),
   transport: z.enum(["stdio", "http"]).default("stdio"),
   host: z.string().default("127.0.0.1"),
-  port: z.number().int().min(1).max(65535).default(3333),
+  /** HTTP port. 0 picks a free port (the chosen port is logged). */
+  port: z.number().int().min(0).max(65535).default(3333),
   toolMode: z.enum(["generic", "per-entity", "auto"]).default("auto"),
   /** In `auto`, per-entity tools are generated when the service has at most this many entity sets. */
   perEntityThreshold: z.number().int().min(1).default(12),

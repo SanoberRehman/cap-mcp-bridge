@@ -112,7 +112,9 @@ export async function startHttpServer(ctx: BridgeContext): Promise<HttpBridge> {
     server.once("error", reject);
     server.listen(ctx.config.port, ctx.config.host, () => resolve());
   });
-  log.info(`streamable HTTP listening on http://${ctx.config.host}:${ctx.config.port}/mcp`);
+  const address = server.address();
+  const port = typeof address === "object" && address ? address.port : ctx.config.port;
+  log.info(`streamable HTTP listening on http://${ctx.config.host}:${port}/mcp`);
 
   return {
     server,
