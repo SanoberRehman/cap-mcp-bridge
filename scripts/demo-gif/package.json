@@ -1,0 +1,10 @@
+{
+  "name": "cap-mcp-bridge-demo-gif",
+  "private": true,
+  "description": "Renders docs/demo.gif from a real bridge session. Kept out of the main package so its native canvas dependency is not pulled by users.",
+  "type": "module",
+  "devDependencies": {
+    "@napi-rs/canvas": "^1.0.8",
+    "gifenc": "^1.0.3"
+  }
+}

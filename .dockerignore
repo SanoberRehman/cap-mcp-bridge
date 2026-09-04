@@ -1,0 +1,13 @@
+node_modules
+dist
+examples
+test
+docs
+scripts
+coverage
+.git
+.github
+*.md
+!README.md
+.env*
+cap-mcp.config.json

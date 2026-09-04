@@ -28,3 +28,23 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npm run build
+      - name: CLI answers --help from the built output
+        run: node dist/cli.js --help | head -n 3
+
+  docker:
+    name: docker build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t cap-mcp-bridge:ci .
+      - name: image starts and serves /healthz against Northwind
+        run: |
+          docker run -d --name bridge -p 3333:3333 \
+            -e CAP_MCP_URL=https://services.odata.org/V4/Northwind/Northwind.svc \
+            cap-mcp-bridge:ci
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3333/healthz; then echo; exit 0; fi
+            sleep 1
+          done
+          docker logs bridge
+          exit 1
