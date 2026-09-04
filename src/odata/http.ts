@@ -92,8 +92,10 @@ export class ODataHttpClient {
     let attempt = 0;
 
     for (;;) {
+      // IEEE754Compatible asks the service to serialise Edm.Decimal / Edm.Int64 as strings so no
+      // precision is lost in JSON. Services that ignore the parameter still answer with plain JSON.
       const headers: Record<string, string> = {
-        Accept: mode === "json" ? "application/json" : "application/xml, text/xml",
+        Accept: mode === "json" ? "application/json;IEEE754Compatible=true" : "application/xml, text/xml",
         "OData-MaxVersion": "4.0",
         "OData-Version": "4.0",
         ...this.extraHeaders,

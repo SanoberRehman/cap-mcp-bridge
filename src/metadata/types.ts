@@ -57,7 +57,7 @@ const PRIMITIVES: Record<string, { schema: JsonSchemaHint; kind: LiteralKind }> 
   "Edm.Decimal": {
     schema: {
       type: "string",
-      note: 'decimal, serialised as a string (e.g. "19.99") to preserve precision',
+      note: 'decimal, serialised as a string (e.g. "19.99") to preserve precision; some services return a number instead, so accept both',
     },
     kind: "decimal",
   },
