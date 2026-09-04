@@ -1,0 +1,65 @@
+{
+  "name": "cap-mcp-bridge",
+  "version": "0.1.0",
+  "description": "MCP server that turns any SAP CAP / OData v4 service into LLM tools from its $metadata. No per-service code.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Sanober Rehman",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanoberRehman/cap-mcp-bridge.git"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "sap",
+    "cap",
+    "odata",
+    "llm",
+    "tools"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "cap-mcp-bridge": "./dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsx src/cli.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:live": "cross-env CAP_MCP_LIVE=1 vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "fast-xml-parser": "^5.11.1",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/node": "^20.19.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^9.0.0",
+    "tsx": "^4.23.13",
+    "typescript": "^5.9.0",
+    "typescript-eslint": "^8.69.0",
+    "vitest": "^3.2.0"
+  }
+}

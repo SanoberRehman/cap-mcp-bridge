@@ -1,0 +1,25 @@
+{
+  "name": "cap-mcp-bridge-bookshop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Small CAP bookshop used as the local acceptance target for cap-mcp-bridge",
+  "dependencies": {
+    "@sap/cds": "^8",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch": "cds watch",
+    "metadata": "cds compile srv --to edmx-v4"
+  },
+  "cds": {
+    "requires": {
+      "db": { "kind": "sqlite", "credentials": { "url": ":memory:" } },
+      "auth": { "kind": "dummy" }
+    },
+    "protocols": { "odata-v4": { "path": "/odata/v4" } }
+  }
+}

@@ -1,0 +1,6 @@
+ID;title;descr;author_ID;genre_ID;stock;price;currency_code;publishedAt;status
+6b1a0a2e-0003-4000-8000-000000000001;Wuthering Heights;Wuthering Heights, Emily Brontë's only novel, was published in 1847 under the pseudonym Ellis Bell.;6b1a0a2e-0001-4000-8000-000000000001;6b1a0a2e-0002-4000-8000-000000000002;12;11.11;GBP;1847-12-01;available
+6b1a0a2e-0003-4000-8000-000000000002;Jane Eyre;Jane Eyre is a novel by English writer Charlotte Brontë, published in 1847.;6b1a0a2e-0001-4000-8000-000000000002;6b1a0a2e-0002-4000-8000-000000000002;11;12.34;GBP;1847-10-16;available
+6b1a0a2e-0003-4000-8000-000000000003;The Raven;The Raven is a narrative poem by Edgar Allan Poe, first published in January 1845.;6b1a0a2e-0001-4000-8000-000000000003;6b1a0a2e-0002-4000-8000-000000000003;333;13.13;USD;1845-01-29;available
+6b1a0a2e-0003-4000-8000-000000000004;Eleonora;Eleonora is a short story by Edgar Allan Poe, first published in 1842.;6b1a0a2e-0001-4000-8000-000000000003;6b1a0a2e-0002-4000-8000-000000000004;555;14.14;USD;1842-01-01;available
+6b1a0a2e-0003-4000-8000-000000000005;Catweazle;Catweazle is a British fantasy television series, novelised by its creator Richard Carpenter.;6b1a0a2e-0001-4000-8000-000000000004;6b1a0a2e-0002-4000-8000-000000000005;0;15.15;JPY;1970-02-15;out_of_stock

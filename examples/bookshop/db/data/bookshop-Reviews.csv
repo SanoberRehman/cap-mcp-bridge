@@ -1,0 +1,4 @@
+ID;book_ID;rating;text;reviewer
+6b1a0a2e-0004-4000-8000-000000000001;6b1a0a2e-0003-4000-8000-000000000001;5;Bleak, windswept and unforgettable.;reader_one
+6b1a0a2e-0004-4000-8000-000000000002;6b1a0a2e-0003-4000-8000-000000000002;4;Slow start, superb second half.;reader_two
+6b1a0a2e-0004-4000-8000-000000000003;6b1a0a2e-0003-4000-8000-000000000003;5;Nevermore.;reader_three
