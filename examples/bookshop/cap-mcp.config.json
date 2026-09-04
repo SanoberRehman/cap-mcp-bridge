@@ -1,0 +1,7 @@
+{
+  "url": "http://localhost:4004/odata/v4/catalog",
+  "auth": { "kind": "none" },
+  "toolMode": "auto",
+  "writeEnabled": false,
+  "entityDeny": ["Currencies_texts"]
+}
