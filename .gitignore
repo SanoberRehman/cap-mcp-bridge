@@ -1,0 +1,12 @@
+node_modules/
+dist/
+coverage/
+*.log
+.env
+.env.*
+!.env.example
+cap-mcp.config.json
+!examples/**/cap-mcp.config.json
+examples/bookshop/gen/
+examples/bookshop/*.db
+.DS_Store
