@@ -1,6 +1,9 @@
 # cap-mcp-bridge
 
+[![npm](https://img.shields.io/npm/v/cap-mcp-bridge?logo=npm&color=cb3837)](https://www.npmjs.com/package/cap-mcp-bridge)
 [![CI](https://github.com/SanoberRehman/cap-mcp-bridge/actions/workflows/ci.yml/badge.svg)](https://github.com/SanoberRehman/cap-mcp-bridge/actions/workflows/ci.yml)
+[![node](https://img.shields.io/node/v/cap-mcp-bridge?logo=node.js&logoColor=white)](https://nodejs.org)
+[![license](https://img.shields.io/npm/l/cap-mcp-bridge)](LICENSE)
 
 Point it at any SAP CAP / OData v4 service. It reads the service's `$metadata` and turns it into
 MCP tools an LLM can call: list, describe, query with validated filters, expand across
