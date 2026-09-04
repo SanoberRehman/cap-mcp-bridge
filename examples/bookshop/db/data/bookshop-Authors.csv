@@ -1,0 +1,5 @@
+ID;name;dateOfBirth;dateOfDeath;placeOfBirth;email
+6b1a0a2e-0001-4000-8000-000000000001;Emily Brontë;1818-07-30;1848-12-19;Thornton, Yorkshire;emily@example.com
+6b1a0a2e-0001-4000-8000-000000000002;Charlotte Brontë;1816-04-21;1855-03-31;Thornton, Yorkshire;charlotte@example.com
+6b1a0a2e-0001-4000-8000-000000000003;Edgar Allen Poe;1809-01-19;1849-10-07;Boston, Massachusetts;edgar@example.com
+6b1a0a2e-0001-4000-8000-000000000004;Richard Carpenter;1929-08-14;2012-02-26;King's Lynn, Norfolk;richard@example.com

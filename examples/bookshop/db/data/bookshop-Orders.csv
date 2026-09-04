@@ -1,0 +1,4 @@
+ID;orderNo;customer;customerEmail;total;currency_code;placedAt
+6b1a0a2e-0005-4000-8000-000000000001;ORD-1001;Ada Lovelace;ada@example.com;23.45;GBP;2024-03-01T10:15:00Z
+6b1a0a2e-0005-4000-8000-000000000002;ORD-1002;Grace Hopper;grace@example.com;1500.00;USD;2024-04-12T08:00:00Z
+6b1a0a2e-0005-4000-8000-000000000003;ORD-1003;Alan Turing;alan@example.com;15.15;JPY;
