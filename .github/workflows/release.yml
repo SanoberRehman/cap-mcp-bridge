@@ -1,0 +1,56 @@
+name: Release
+
+# Publishes to npm when a version tag is pushed. Uses npm trusted publishing (OIDC): no NPM_TOKEN
+# secret anywhere. The trusted publisher must be configured once on npmjs.com for this package
+# (Settings → Trusted Publisher → GitHub Actions, repository SanoberRehman/cap-mcp-bridge,
+# workflow release.yml). npm only allows that after the package exists, so the very first
+# version is published by hand; see README → Development → Cutting a release.
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: publish ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+          cache: npm
+
+      # Trusted publishing needs npm 11.5.1 or newer; Node 20 bundles npm 10.
+      - name: Update npm for OIDC trusted publishing
+        run: npm install -g npm@latest && npm --version
+
+      - run: npm ci
+
+      - name: Tag must match package.json version
+        run: |
+          PKG="v$(node -p "require('./package.json').version")"
+          if [ "$PKG" != "${GITHUB_REF_NAME}" ]; then
+            echo "package.json is $PKG but the tag is ${GITHUB_REF_NAME}"; exit 1
+          fi
+
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+
+      - name: Show what will be published
+        run: npm pack --dry-run
+
+      - name: Publish to npm with provenance
+        run: npm publish --provenance --access public

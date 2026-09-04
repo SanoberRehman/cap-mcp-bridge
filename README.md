@@ -77,6 +77,36 @@ real property names. Easier for a model to call correctly, and affordable at tha
 Every description is generated from the service's CDS annotations (`@title`, `@Core.Description`,
 `@readonly`, `@mandatory`, `@Capabilities.*`, `@PersonalData.*`). Nothing is written per service.
 
+## Related work
+
+There is prior art in the CAP ecosystem, and the difference is architectural rather than a
+feature list. Versions and descriptions below are from the npm registry at the time of writing.
+
+| Package | What it is | Where it runs | What it reads |
+|---|---|---|---|
+| [`@gavdi/cap-mcp`](https://www.npmjs.com/package/@gavdi/cap-mcp) (1.8.0) | CAP plugin. Scans your service definitions for `@mcp` annotations and exposes annotated entities as MCP resources with OData v4 query capabilities, functions and actions as tools, plus prompt templates; optional entity wrappers add `query` / `get` / `create` / `update` tools. Serves MCP from the CAP app itself at `/mcp`, inheriting the app's authentication. | Inside the CAP application (`npm install` into the CAP project) | CAP's compiled model and your `@mcp` annotations |
+| [`@neoimpulse/cap-js-mcp`](https://www.npmjs.com/package/@neoimpulse/cap-js-mcp) (1.0.6) | CAP plugin with API-key authentication and configurable directories for your own tools, prompts and resources. Its default tools are `search_model` and `search_docs`, described as a generic implementation based on the SAP server below, using `cds.model` from the running app. The README marks `search_docs` as a placeholder, and the npm description is unrelated boilerplate. | Inside the CAP application | The running app's `cds.model` |
+| [`@cap-js/mcp-server`](https://www.npmjs.com/package/@cap-js/mcp-server) (0.0.5) | SAP's own MCP server, aimed at *developers building CAP apps* ("AI-assisted development of CAP applications"): `search_model` over a project's compiled CDS definitions and `search_docs` over the CAP documentation. It does not query a running service's data. | As a separate process (`npx -y @cap-js/mcp-server`) against a CAP project on disk | The project's CDS sources and the CAP docs |
+| `cap-mcp-bridge` (this project) | A generic OData v4 client exposed as MCP tools: query, get, expand, functions, actions, with schema-validated filters and safety rails. | As a separate process, anywhere with HTTP access to the service | `$metadata` over HTTP, nothing else |
+
+The two plugins run **inside** the CAP application: you add them to the CAP project's
+`package.json`, and they read CAP's runtime model after the app compiles. `cap-mcp-bridge` runs
+**outside** the service and consumes `$metadata` over HTTP. That cuts both ways:
+
+- **Where the bridge is the better fit:** services you do not own, cannot modify, or cannot
+  redeploy. Third-party SAP systems, locked-down production landscapes, and any non-CAP OData v4
+  service. It is the reason the Northwind example works at all: there is no CAP application to
+  install a plugin into.
+- **Where the plugins are the better fit:** if you own the CAP application and can add a
+  dependency. In-process access to the compiled CDS model gives them richer semantics than an EDMX
+  document exposes (CAP-specific annotations that never reach `$metadata`, custom handlers, the
+  app's own authentication and authorisation applied per user), and there is no second process to
+  run or secure. `@gavdi/cap-mcp` in particular lets you curate exactly what is exposed through
+  `@mcp` annotations, which is a more deliberate surface than "everything in the metadata".
+
+If you are writing the CAP service yourself, look at the plugins first. If you are pointed at
+someone else's OData endpoint, this is the tool.
+
 ## Filters that self-correct
 
 `$filter` as a raw string is where LLM-driven OData goes wrong: quoting, date literals, `eq null`,
@@ -238,6 +268,38 @@ npx tsx scripts/smoke.ts https://services.odata.org/V4/Northwind/Northwind.svc  
 The end-to-end tests run a real `McpServer` and `Client` over an in-memory transport with `fetch`
 stubbed to serve fixture metadata, plus real HTTP servers for the auth and transport suites. The
 bookshop under `examples/bookshop` provides the CAP fixture (`npx cds compile srv --to edmx-v4`).
+
+### Cutting a release
+
+Releases are published by GitHub Actions ([release.yml](.github/workflows/release.yml)) through
+npm trusted publishing (OIDC). There is no `NPM_TOKEN` secret, and the package page carries a
+provenance badge linking the tarball to the exact commit and workflow run.
+
+```sh
+# 1. on main, bump the version and record the changes
+npm version 0.2.0 --no-git-tag-version      # edits package.json + package-lock.json
+#    add a 0.2.0 section to CHANGELOG.md, open a PR, merge it
+# 2. tag the merged commit and push the tag; the workflow publishes
+git checkout main && git pull
+git tag v0.2.0 && git push origin v0.2.0
+```
+
+The workflow refuses to publish if the tag does not match `package.json`. One-time setup: npm
+only lets you register a trusted publisher for a package that already exists, so the very first
+version is published by hand (`npm publish`, with 2FA), after which the trusted publisher is added
+on npmjs.com under the package's Settings (GitHub Actions, repository
+`SanoberRehman/cap-mcp-bridge`, workflow `release.yml`).
+
+### Post-publish check
+
+```sh
+scripts/verify-published.sh            # cap-mcp-bridge@latest
+scripts/verify-published.sh 0.1.0      # a specific version
+```
+
+It runs `npx -y cap-mcp-bridge@<version> --print-model` against Northwind from a fresh temp
+directory with a fresh npm cache, so nothing resolves from this repository. It is what catches a
+missing shebang, an unbuilt `dist`, or a `files` array that left something out.
 
 ## License
 

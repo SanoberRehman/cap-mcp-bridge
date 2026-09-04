@@ -104,8 +104,8 @@ across sessions so metadata is fetched once, not once per client.
 
 ## Decisions taken without a spec line
 
-- **Record counts in `list_entity_sets`** are fetched with `$top=0&$count=true`, eight at a time,
-  and fail soft to `null`. They are on by default (`includeCounts`) because the spec asks for them,
+- **Record counts in `list_entity_sets`** are fetched from each set's `/$count` endpoint (with the
+  draft guard applied), eight at a time, and fail soft to `null`. They are on by default (`includeCounts`) because the spec asks for them,
   but a caller can turn them off for a slow service.
 - **Raw `$filter` is parsed, not regex-scanned.** A regex would miss operator/type mismatches. The
   parser covers the OData subset a model realistically emits; anything it cannot parse is rejected
