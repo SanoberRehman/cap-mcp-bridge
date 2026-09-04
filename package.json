@@ -45,6 +45,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:live": "cross-env CAP_MCP_LIVE=1 vitest run",
+    "smoke": "tsx scripts/smoke.ts",
+    "demo:gif": "tsx scripts/demo-gif/render.ts",
+    "prepare": "npm run build",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
