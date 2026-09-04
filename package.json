@@ -1,28 +1,35 @@
 {
   "name": "cap-mcp-bridge",
   "version": "0.1.0",
-  "description": "MCP server that turns any SAP CAP / OData v4 service into LLM tools from its $metadata. No per-service code.",
+  "description": "MCP server that turns any SAP CAP or OData v4 service into LLM tools by reading its OData metadata document. No per-service code.",
   "type": "module",
   "license": "MIT",
   "author": "Sanober Rehman",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SanoberRehman/cap-mcp-bridge.git"
+    "url": "git+https://github.com/SanoberRehman/cap-mcp-bridge.git"
+  },
+  "homepage": "https://github.com/SanoberRehman/cap-mcp-bridge#readme",
+  "bugs": {
+    "url": "https://github.com/SanoberRehman/cap-mcp-bridge/issues"
   },
   "keywords": [
     "mcp",
     "model-context-protocol",
     "sap",
+    "sap-cap",
     "cap",
     "odata",
-    "llm",
-    "tools"
+    "odata-v4",
+    "llm-tools",
+    "claude",
+    "ai"
   ],
   "engines": {
     "node": ">=20"
   },
   "bin": {
-    "cap-mcp-bridge": "./dist/cli.js"
+    "cap-mcp-bridge": "dist/cli.js"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -35,8 +42,13 @@
   "files": [
     "dist",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "DEMO.md"
   ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "dev": "tsx src/cli.ts",
@@ -48,7 +60,7 @@
     "smoke": "tsx scripts/smoke.ts",
     "demo:gif": "tsx scripts/demo-gif/render.ts",
     "prepare": "npm run build",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run typecheck && npm run lint && npm test && npm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",
