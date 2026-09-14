@@ -1,0 +1,21 @@
+# Weekly dependency updates. Minor and patch bumps arrive as one grouped PR
+# per ecosystem so CI runs once; majors open individually because they are
+# the ones that need reading.
+#
+# Only the root package is covered on purpose:
+#   - examples/bookshop is pinned to @sap/cds ^8 / @cap-js/sqlite ^1 (see its
+#     README) and must not be bumped automatically.
+#   - scripts/demo-gif is a one-off render tool, not shipped.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
