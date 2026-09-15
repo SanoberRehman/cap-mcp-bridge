@@ -1,0 +1,64 @@
+name: Bug report
+description: The bridge did something wrong against a real service.
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Bridge version
+      description: Output of `npx cap-mcp-bridge --version`.
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: how-run
+    attributes:
+      label: How it is run
+      options:
+        - npx, stdio (Claude Desktop / Claude Code / another MCP client)
+        - npx, HTTP transport
+        - Docker image
+        - From a clone (npm run dev)
+    validations:
+      required: true
+  - type: dropdown
+    id: service
+    attributes:
+      label: Service
+      description: What kind of OData v4 service the bridge is pointed at.
+      options:
+        - CAP running locally (cds watch / cds serve)
+        - CAP deployed on BTP (XSUAA)
+        - Public Northwind
+        - Another OData v4 service (say which in the description)
+    validations:
+      required: true
+  - type: textarea
+    id: config
+    attributes:
+      label: Configuration
+      description: The CLI flags, env vars or `cap-mcp.config.json` in use, with the URL host, tokens, passwords and client secrets removed.
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: call
+    attributes:
+      label: The tool call
+      description: Which tool the model called and the exact arguments. `describe_entity` or `--print-model` output for the entity set involved helps a lot if you can share it.
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: got
+    attributes:
+      label: What came back
+      description: The tool result or error, and any stderr log lines (they never contain secrets).
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should have happened
+    validations:
+      required: true

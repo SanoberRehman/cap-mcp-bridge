@@ -1,0 +1,33 @@
+name: Feature request
+description: Something the bridge should do, or a service it should handle.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What you are trying to get the model to do, and what stops it today. If it is a service the bridge cannot read, the relevant `$metadata` excerpt (with names changed if needed) is the most useful thing you can attach.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What you would like to see. A new tool, a flag, a config key, a change to what the model is told.
+  - type: dropdown
+    id: layer
+    attributes:
+      label: Where it probably lands
+      description: Best guess; see CONTRIBUTING.md for the layer map.
+      options:
+        - metadata (reading $metadata, annotations, drafts)
+        - odata (filters, validation, request building, auth)
+        - tools (what the model sees and can call)
+        - server (transports, config, packaging)
+        - Not sure
+  - type: checkboxes
+    id: pr
+    attributes:
+      label: Contribution
+      options:
+        - label: I would be willing to open a PR for this.
