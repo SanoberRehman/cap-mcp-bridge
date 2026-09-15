@@ -11,10 +11,10 @@ import { createRequire } from "node:module";
 import { loadConfig } from "./server/config.js";
 import type { CliOverrides } from "./server/config.js";
 import { createBridgeContext } from "./server/context.js";
-import { printModelTree } from "./metadata/print.js";
+import { printModelJson, printModelTree } from "./metadata/print.js";
 import { startServer } from "./server/index.js";
 import { log, setLogLevel } from "./util/log.js";
-import { BridgeError } from "./util/errors.js";
+import { BridgeError, ConfigError } from "./util/errors.js";
 
 const require = createRequire(import.meta.url);
 const pkg = require("../package.json") as { version: string };
@@ -41,6 +41,8 @@ Options:
                            OAuth2 client credentials (env CAP_MCP_CLIENT_ID / CAP_MCP_CLIENT_SECRET)
   --service-key <path>     XSUAA service key JSON; fills token-url/client-id/secret (env CAP_MCP_SERVICE_KEY_FILE)
   --print-model            Fetch $metadata, print the parsed ServiceModel as a tree, exit
+  --json                   With --print-model: print JSON instead of the tree. fetchedAt is
+                           omitted so two runs against the same service diff cleanly
   --log-level <level>      debug | info | warn | error | silent (env CAP_MCP_LOG_LEVEL)
   --version                Print version
   --help                   Show this help
@@ -69,6 +71,7 @@ async function main(): Promise<void> {
       scope: { type: "string" },
       "service-key": { type: "string" },
       "print-model": { type: "boolean" },
+      json: { type: "boolean" },
       "log-level": { type: "string" },
       version: { type: "boolean" },
       help: { type: "boolean" },
@@ -107,10 +110,14 @@ async function main(): Promise<void> {
   const config = loadConfig(overrides);
   setLogLevel(config.logLevel);
 
+  if (values.json && !values["print-model"]) {
+    throw new ConfigError("--json only applies together with --print-model.", "Run with --print-model --json.");
+  }
+
   if (values["print-model"]) {
     const ctx = createBridgeContext(config);
     const model = await ctx.metadata.get();
-    console.log(printModelTree(model));
+    console.log(values.json ? printModelJson(model) : printModelTree(model));
     return;
   }
 

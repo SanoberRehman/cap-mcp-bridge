@@ -53,6 +53,9 @@ To see what the bridge understood about a service without starting the server:
 npx cap-mcp-bridge --url http://localhost:4004/odata/v4/catalog --print-model
 ```
 
+Add `--json` for the same thing as JSON. It leaves out the fetch timestamp, so saving it before a
+redeploy and diffing afterwards shows exactly which entities, fields and capabilities changed.
+
 ## What the model gets
 
 A fixed set of tools whose *schema* is discoverable, rather than four tools per entity set (a real
