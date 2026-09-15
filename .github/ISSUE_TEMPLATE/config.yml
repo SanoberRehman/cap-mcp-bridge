@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/SanoberRehman/cap-mcp-bridge/security/advisories/new
+    about: A way around a safety rail (write gating, allow/deny, redaction, the filter validator, the response ceiling, token handling). Please report privately.
