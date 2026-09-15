@@ -6,6 +6,10 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- `--print-model --json`: print the parsed `ServiceModel` as JSON instead of the tree. `fetchedAt` is omitted so two runs against the same service produce identical output, which makes it diffable before and after a redeploy. `--json` without `--print-model` is an error rather than a silent no-op.
+
 ## [0.1.0] - 2026-09-04
 
 ### Added

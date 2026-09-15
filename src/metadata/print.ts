@@ -1,6 +1,16 @@
 import type { EntitySet, Operation, Property, ServiceModel } from "./model.js";
 import { shortTypeName } from "./types.js";
 
+/**
+ * Render a ServiceModel as JSON. Used by `--print-model --json`.
+ *
+ * `fetchedAt` is left out on purpose: the point of the JSON form is to diff what the bridge
+ * understood before and after a redeploy, and a timestamp would make every diff dirty.
+ */
+export function printModelJson(model: ServiceModel): string {
+  return JSON.stringify(model, (key, value: unknown) => (key === "fetchedAt" ? undefined : value), 2);
+}
+
 /** Render a ServiceModel as an indented tree. Used by `--print-model` and the M1 acceptance check. */
 export function printModelTree(model: ServiceModel): string {
   const lines: string[] = [];
